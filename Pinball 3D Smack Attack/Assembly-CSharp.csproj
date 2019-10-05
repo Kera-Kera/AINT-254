@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Ball\BallCamera.cs" />
     <Compile Include="Assets\Scripts\Ball\BallJump.cs" />
     <Compile Include="Assets\Scripts\Ball\BallRoll.cs" />
+    <Compile Include="Assets\Scripts\Ball\TargetMovement.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:/Unity Games/AINT254/Pinball 3D Smack Attack/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

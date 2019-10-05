@@ -23,9 +23,7 @@ public class BallJump : MonoBehaviour
     {
         int notPlayerMask = ~(1 << 8);
 
-
-
-        isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.05f), 0.5f, notPlayerMask);
+        isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.08f), 0.5f, notPlayerMask);
 
         if (Input.GetButtonDown("Jump"))
         {
