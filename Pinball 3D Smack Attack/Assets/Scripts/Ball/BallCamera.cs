@@ -6,21 +6,16 @@ using UnityEngine.SceneManagement;
 public class BallCamera : MonoBehaviour
 {
     public GameObject ball;
+    public float distance = 2;
+    public Transform Target;
+    public float rotationSmoothTime = 0.12f;
 
-    private Vector3 distance;
 
-    void Start()
-    {
-        distance = transform.position - ball.transform.position;
+    Vector3 currentRotation;
+    Vector3 rotationSmoothVelocity;
 
-    }
+    private float mouseX, mouseY;
 
-<<<<<<< Updated upstream
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        transform.position = ball.transform.position + distance;
-=======
     private void Start()
     {
         Screen.SetResolution(1280 , 720, false);
@@ -46,7 +41,12 @@ public class BallCamera : MonoBehaviour
 
 
         Cursor.visible = false;
->>>>>>> Stashed changes
 
+        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(mouseY, mouseX), ref rotationSmoothVelocity, rotationSmoothTime);
+
+        transform.eulerAngles = currentRotation;
+
+        transform.position = Target.position - transform.forward * distance;
     }
+
 }

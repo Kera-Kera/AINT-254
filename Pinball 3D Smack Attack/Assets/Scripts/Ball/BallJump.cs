@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class BallJump : MonoBehaviour
 {
+    public float homingAttackSpeed = 40f;
     public float jumpForce;
     public bool isGrounded;
+    public Transform camTransform;
+    public bool canHomingAttack;
+    public GameObject storedHomingTarget = null;
 
-
+    private GameObject currentStoredHomingTarget = null;
+    private bool usingHoming = false;
+    private bool homingUsed = false;
     private Rigidbody rb;
+ 
 
 
     // Start is called before the first frame update
@@ -20,10 +27,10 @@ public class BallJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float angle;
+
         int notPlayerMask = ~(1 << 8);
 
-<<<<<<< Updated upstream
-=======
 
     
             
@@ -95,10 +102,8 @@ public class BallJump : MonoBehaviour
          *    homingUsed=false;
          *  }
          */
->>>>>>> Stashed changes
 
 
-        isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.05f), 0.5f, notPlayerMask);
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -108,67 +113,41 @@ public class BallJump : MonoBehaviour
                 if (rb.velocity.y > -1 && rb.velocity.y < 1)
                 {
                     rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+                    
+                }
+                homingUsed = false;
+            }
+
+            if (!isGrounded)
+            {
+                if (!homingUsed)
+                {
+                    if (storedHomingTarget == null)
+                    {
+                        rb.velocity = camTransform.TransformDirection(Vector3.forward * homingAttackSpeed);
+                        homingUsed = true;
+                    }
+                    else
+                    {
+                        currentStoredHomingTarget = storedHomingTarget;
+                        usingHoming = true;
+                        homingUsed = true;
+                    }
                 }
             }
         }
-<<<<<<< Updated upstream
-=======
         if (usingHoming == true)
         {
             rb.velocity = Vector3.zero;
             transform.position = Vector3.MoveTowards(transform.position, currentStoredHomingTarget.transform.position, 20f * Time.deltaTime);
             
-            if (Vector3.Distance(transform.position , currentStoredHomingTarget.transform.position) < 0.6f)
+            if (Vector3.Distance(transform.position , currentStoredHomingTarget.transform.position) < 0.7f)
             {
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-                StartCoroutine(Spawning(currentStoredHomingTarget));
-                storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
-                storedHomingTarget = null;
                 homingUsed = false;
                 usingHoming = false;
             }
         }
->>>>>>> Stashed changes
-    }
-
-    IEnumerator Spawning(GameObject currentcurrentStoredHomingTarget)
-    {
-        currentcurrentStoredHomingTarget.SetActive(false);
-        yield return StartCoroutine(WaitForSeconds(2.0F));
-        currentcurrentStoredHomingTarget.SetActive(true);
-    }
-
-    IEnumerator WaitForSeconds(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
     }
 }
-  //  IEnumerator DelayedJumping()
- //   {
-  //      float timer = 0;
-  //      for (; ; )
-//              {
-//
-   //         timer += 1;
-   //         if (isGrounded)
-   //         {
-  //              
- //              if (rb.velocity.y > -8 && rb.velocity.y < 0)
-  //              {
-  //                  Debug.Log("done" + rb.velocity.y);
-  //                  rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-  //                  
-    //                StopCoroutine("DelayedJumping");
-    //
-      //          }
-    //        }
-//
- //           if (timer == 3)
- //           {
- //               StopCoroutine("DelayedJumping");
-  //          }
-//
-//            yield return new WaitForSeconds(.05f);
-//        }
- //   }
 
