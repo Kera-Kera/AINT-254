@@ -90,20 +90,21 @@ public class BallJump : MonoBehaviour
         {
             storedHomingTarget.GetComponent<HomingPassthrough>().IsSelected();
             angle = Vector3.Angle(storedHomingTarget.transform.position - transform.position, Camera.main.transform.forward);
-            if (Vector3.Distance(transform.position, storedHomingTarget.transform.position) > 7f || (Mathf.Abs(angle) > 50))
+            if (Vector3.Distance(transform.position, storedHomingTarget.transform.position) > 7f || (Mathf.Abs(angle) > 50) || usingHoming == false && homingUsed == true)
             {
                 storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
                 storedHomingTarget = null;
             }
         }
 
+        if (isGrounded)
+        {
+            if (rb.velocity.y > -1 && rb.velocity.y < 1)
+            {
+                homingUsed = false;
 
-        /*  if(isGrounded) {
-         *    homingUsed=false;
-         *  }
-         */
-
-
+            }
+        }
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -140,14 +141,29 @@ public class BallJump : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
             transform.position = Vector3.MoveTowards(transform.position, currentStoredHomingTarget.transform.position, 20f * Time.deltaTime);
-            
-            if (Vector3.Distance(transform.position , currentStoredHomingTarget.transform.position) < 0.7f)
+
+            if (Vector3.Distance(transform.position, currentStoredHomingTarget.transform.position) < 0.6f)
             {
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+                StartCoroutine(Spawning(currentStoredHomingTarget));
+                storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
+                storedHomingTarget = null;
                 homingUsed = false;
                 usingHoming = false;
             }
         }
+    }
+
+    IEnumerator Spawning(GameObject currentcurrentStoredHomingTarget)
+    {
+        currentcurrentStoredHomingTarget.SetActive(false);
+        yield return StartCoroutine(WaitForSeconds(2.0F));
+        currentcurrentStoredHomingTarget.SetActive(true);
+    }
+
+    IEnumerator WaitForSeconds(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
     }
 }
 
