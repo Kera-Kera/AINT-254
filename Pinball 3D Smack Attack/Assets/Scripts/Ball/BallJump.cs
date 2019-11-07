@@ -99,8 +99,9 @@ public class BallJump : MonoBehaviour
 
         if (isGrounded)
         {
-            if (rb.velocity.y > -1 && rb.velocity.y < 1)
+            if (rb.velocity.y > -1 && rb.velocity.y < 1 && storedHomingTarget != null)
             {
+                storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
                 homingUsed = false;
 
             }
@@ -141,12 +142,12 @@ public class BallJump : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
             transform.position = Vector3.MoveTowards(transform.position, currentStoredHomingTarget.transform.position, 20f * Time.deltaTime);
+            storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
 
             if (Vector3.Distance(transform.position, currentStoredHomingTarget.transform.position) < 0.6f)
             {
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
                 StartCoroutine(Spawning(currentStoredHomingTarget));
-                storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
                 storedHomingTarget = null;
                 homingUsed = false;
                 usingHoming = false;
