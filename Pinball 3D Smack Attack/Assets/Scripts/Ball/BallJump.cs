@@ -138,16 +138,17 @@ public class BallJump : MonoBehaviour
                 }
             }
         }
-        if (usingHoming == true)
+        if (usingHoming == true && storedHomingTarget != null)
         {
             rb.velocity = Vector3.zero;
             transform.position = Vector3.MoveTowards(transform.position, currentStoredHomingTarget.transform.position, 20f * Time.deltaTime);
-            storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
+            
 
             if (Vector3.Distance(transform.position, currentStoredHomingTarget.transform.position) < 0.6f)
             {
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
                 StartCoroutine(Spawning(currentStoredHomingTarget));
+         
                 storedHomingTarget = null;
                 homingUsed = false;
                 usingHoming = false;
@@ -157,6 +158,7 @@ public class BallJump : MonoBehaviour
 
     IEnumerator Spawning(GameObject currentcurrentStoredHomingTarget)
     {
+
         currentcurrentStoredHomingTarget.SetActive(false);
         yield return StartCoroutine(WaitForSeconds(2.0F));
         currentcurrentStoredHomingTarget.SetActive(true);
