@@ -66,8 +66,10 @@
     <Compile Include="Assets\Scripts\Ball\BallJump.cs" />
     <Compile Include="Assets\Scripts\Ball\BallRoll.cs" />
     <Compile Include="Assets\Scripts\Ball\TargetMovement.cs" />
+    <Compile Include="Assets\Scripts\Game Logic\NextLevel.cs" />
     <Compile Include="Assets\Scripts\Reticle\HomingPassthrough.cs" />
     <Compile Include="Assets\Scripts\Reticle\HomingReticle.cs" />
+    <Compile Include="Assets\Scripts\why.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:/Unity Games/AINT254/Pinball 3D Smack Attack/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

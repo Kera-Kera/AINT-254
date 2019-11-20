@@ -15,7 +15,8 @@ public class BallJump : MonoBehaviour
     private bool usingHoming = false;
     private bool homingUsed = false;
     private Rigidbody rb;
- 
+    private float angle;
+    private int notPlayerMask = ~(1 << 8);
 
 
     // Start is called before the first frame update
@@ -27,64 +28,8 @@ public class BallJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float angle;
 
-        int notPlayerMask = ~(1 << 8);
-
-
-    
-            
-
-
-
-        isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.08f), 0.5f, notPlayerMask);
-
-        Collider[] objectColliders = Physics.OverlapSphere(transform.position, 7f);
-
-        for (int i = 0; i <= objectColliders.Length - 1; i++)
-        {
-            GameObject homingTarget = objectColliders[i].gameObject;
-            if (homingTarget.tag == "HomingTarget")
-            {
-
-
-
-                angle = Vector3.Angle(homingTarget.transform.position - transform.position, Camera.main.transform.forward);
-                {
-                    if (!usingHoming)
-                    {
-                        if (Mathf.Abs(angle) < 50)
-                        {
-
-                            
-                            
-
-                            if (storedHomingTarget == null)
-                            {
-                                storedHomingTarget = homingTarget;
-                            }
-
-                            //Physics.Raycast(transform.position, (transform.position - homingTarget.transform.position), out RaycastHit hit, 10f, notPlayerMask);
-
-                         //   Debug.DrawRay(transform.position, (transform.position - homingTarget.transform.position) * 10f, Color.yellow);
-
-                            //if (hit.transform.tag == homingTarget.tag)
-                           // {
-                          //  Debug.Log(hit.transform.gameObject);
-
-                                if (Vector3.Distance(transform.position, storedHomingTarget.transform.position) > Vector3.Distance(transform.position, homingTarget.transform.position))
-                                {
-
-                                    storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
-                                    storedHomingTarget = homingTarget;
-
-                                }
-                          // }
-                        }
-                    }
-                }
-            }           
-        }
+        FindTarget();
 
         if (storedHomingTarget != null)
         {
@@ -112,7 +57,7 @@ public class BallJump : MonoBehaviour
 
             if (isGrounded)
             {
-                if (rb.velocity.y > -1 && rb.velocity.y < 1)
+                if (rb.velocity.y > -3 && rb.velocity.y < 3)
                 {
                     rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
                     
@@ -127,6 +72,8 @@ public class BallJump : MonoBehaviour
                     if (storedHomingTarget == null)
                     {
                         rb.velocity = camTransform.TransformDirection(Vector3.forward * homingAttackSpeed);
+                        Vector3 movement = Camera.main.transform.TransformDirection(new Vector3(100, 0.0f, 0));
+                        rb.AddTorque(movement * 250f * Time.deltaTime);
                         homingUsed = true;
                     }
                     else
@@ -152,6 +99,42 @@ public class BallJump : MonoBehaviour
                 storedHomingTarget = null;
                 homingUsed = false;
                 usingHoming = false;
+            }
+        }
+    }
+
+    private void FindTarget()
+    {
+        isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.08f), 0.5f, notPlayerMask);
+
+        Collider[] objectColliders = Physics.OverlapSphere(transform.position, 7f);
+
+        for (int i = 0; i <= objectColliders.Length - 1; i++)
+        {
+            GameObject homingTarget = objectColliders[i].gameObject;
+            if (homingTarget.tag == "HomingTarget")
+            {
+
+
+
+                angle = Vector3.Angle(homingTarget.transform.position - transform.position, Camera.main.transform.forward);
+                {
+                    if (!usingHoming)
+                    {
+                        if (Mathf.Abs(angle) < 50)
+                        {
+                            if (storedHomingTarget == null)
+                            {
+                                storedHomingTarget = homingTarget;
+                            }
+                            if (Vector3.Distance(transform.position, storedHomingTarget.transform.position) > Vector3.Distance(transform.position, homingTarget.transform.position))
+                            {
+                                storedHomingTarget.GetComponent<HomingPassthrough>().IsNotSelected();
+                                storedHomingTarget = homingTarget;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

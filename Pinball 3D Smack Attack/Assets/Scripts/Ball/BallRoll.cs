@@ -5,7 +5,6 @@ using UnityEngine;
 public class BallRoll : MonoBehaviour
 {
     public float speed;
-    public Transform camTransform;
     //public speed float so we can adjust the speed without opening 
     //the script editor.
 
@@ -31,21 +30,31 @@ public class BallRoll : MonoBehaviour
 
         //Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-        Vector3 movement = camTransform.TransformDirection(new Vector3(moveVertical, 0.0f, -moveHorizontal));
+        Vector3 movement = Camera.main.transform.TransformDirection(new Vector3(moveVertical, 0.0f, -moveHorizontal));
 
         rb.AddTorque(movement * speed * Time.deltaTime);
 
-        if (moveHorizontal == 0 && moveVertical == 0) 
+        if (moveHorizontal == 0 && moveVertical == 0)
         {
-            if (isIce == false)
-
+            if (this.gameObject.GetComponent<BallJump>().isGrounded == true)
             {
-                rb.angularVelocity /= 1.05f;
+                if (isIce == true)
+
+                {
+                    rb.angularVelocity /= 1.05f;
+                }
+
+                if (isIce == false)
+                {
+                    rb.angularVelocity /= 1.01f;
+                }
             }
             else
             {
-                rb.angularVelocity /= 1.01f;
+                rb.angularVelocity = rb.angularVelocity;
             }
+        }
+       
 
         }
 
@@ -56,17 +65,15 @@ public class BallRoll : MonoBehaviour
 
             //this.transform.Rotate(movement * speed, 5f, Space.World);
 
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
        if (collision.collider.tag == "Ice")
         {
-            isIce = true;
-        }
-        else
-        {
             isIce = false;
+        }
+        if (collision.collider.tag != "Ice")
+        {
+            isIce = true;
         }
     }
 }
