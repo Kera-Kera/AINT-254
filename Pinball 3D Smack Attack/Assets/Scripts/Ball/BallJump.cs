@@ -139,12 +139,12 @@ public class BallJump : MonoBehaviour
         }
     }
 
-    IEnumerator Spawning(GameObject currentcurrentStoredHomingTarget)
+    IEnumerator Spawning(GameObject SavedHomingTarget)
     {
 
-        currentcurrentStoredHomingTarget.SetActive(false);
-        yield return StartCoroutine(WaitForSeconds(2.0F));
-        currentcurrentStoredHomingTarget.SetActive(true);
+        SavedHomingTarget.SetActive(false);
+        yield return StartCoroutine(WaitForSeconds(SavedHomingTarget.GetComponent<HomingPassthrough>().GetSpawnTime()));
+        SavedHomingTarget.SetActive(true);
     }
 
     IEnumerator WaitForSeconds(float waitTime)

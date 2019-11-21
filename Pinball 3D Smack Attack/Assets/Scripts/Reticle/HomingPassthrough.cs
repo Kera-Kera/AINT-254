@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class HomingPassthrough : MonoBehaviour
 {
-
-    public GameObject target;
-
+    [SerializeField]
+    private GameObject target;
+    [SerializeField]
+    private float SpawnTimer = 2.0f;
 
     // Start is called before the first frame update
     public void IsSelected()
@@ -17,5 +18,9 @@ public class HomingPassthrough : MonoBehaviour
     public void IsNotSelected()
     {
         target.gameObject.SetActive(false);
+    }
+    public float GetSpawnTime()
+    {
+        return SpawnTimer;
     }
 }
