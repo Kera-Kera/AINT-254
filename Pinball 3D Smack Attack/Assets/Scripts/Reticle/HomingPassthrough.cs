@@ -5,7 +5,7 @@ using UnityEngine;
 public class HomingPassthrough : MonoBehaviour
 {
     [SerializeField]
-    private GameObject target;
+    private GameObject target = null;
     [SerializeField]
     private float SpawnTimer = 2.0f;
 

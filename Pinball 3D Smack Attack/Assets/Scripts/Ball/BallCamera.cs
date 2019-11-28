@@ -5,14 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class BallCamera : MonoBehaviour
 {
-    public GameObject ball;
+
     public float distance = 2;
     public Transform Target;
     public float rotationSmoothTime = 0.12f;
 
+    private int notFloorMask = ~(0 << 8);
+    [SerializeField]
+    private LayerMask CamMaskFloor;
+    [SerializeField]
+    private Transform Ball;
 
-    Vector3 currentRotation;
-    Vector3 rotationSmoothVelocity;
+    private Vector3 currentRotation;
+    private Vector3 rotationSmoothVelocity;
 
     private float mouseX, mouseY;
 
@@ -47,6 +52,26 @@ public class BallCamera : MonoBehaviour
         transform.eulerAngles = currentRotation;
 
         transform.position = Target.position - transform.forward * distance;
+
+        Vector3 RaycastRef = Ball.position;
+
+        CameraRayCast(ref RaycastRef);
+    }
+
+    void CameraRayCast(ref Vector3 TargetFol)
+    {
+        RaycastHit wallHit = new RaycastHit();
+
+        if(Physics.Linecast(TargetFol, Camera.main.transform.position, out wallHit, notFloorMask))
+        {
+            transform.position = new Vector3(wallHit.point.x + wallHit.normal.x * 0.5f, transform.position.y, wallHit.point.z + wallHit.normal.z * 0.5f);
+            transform.LookAt(TargetFol);
+        }
+        if (Physics.Linecast(TargetFol, Camera.main.transform.position, out wallHit, CamMaskFloor))
+        {
+            transform.position = new Vector3(wallHit.point.x + wallHit.normal.x * 0.5f, transform.position.y + 1f, wallHit.point.z + wallHit.normal.z * 0.5f);
+            transform.LookAt(TargetFol);
+        }
     }
 
 }
