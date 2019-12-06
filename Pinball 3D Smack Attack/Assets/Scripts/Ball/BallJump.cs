@@ -14,15 +14,21 @@ public class BallJump : MonoBehaviour
     private GameObject currentStoredHomingTarget = null;
     private bool usingHoming = false;
     private bool homingUsed = false;
+    private bool groundPounding = false;
     private Rigidbody rb;
     private float angle;
     private int notPlayerMask = ~(1 << 8);
 
+    private Vector3 camFor;
+    private Vector3 lockedForward;
+    private Vector3 savedVelocity;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        
     }
 
     // Update is called once per frame
@@ -54,53 +60,35 @@ public class BallJump : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-
-            if (isGrounded)
-            {
-                if (rb.velocity.y > -3 && rb.velocity.y < 3)
-                {
-                    rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-                    
-                }
-                homingUsed = false;
-            }
-
-            if (!isGrounded)
-            {
-                if (!homingUsed)
-                {
-                    if (storedHomingTarget == null)
-                    {
-                        rb.velocity = camTransform.TransformDirection(Vector3.forward * homingAttackSpeed);
-                        Vector3 movement = Camera.main.transform.TransformDirection(new Vector3(100, 0.0f, 0));
-                        rb.AddTorque(movement * 250f * Time.deltaTime);
-                        homingUsed = true;
-                    }
-                    else
-                    {
-                        currentStoredHomingTarget = storedHomingTarget;
-                        usingHoming = true;
-                        homingUsed = true;
-                    }
-                }
-            }
+            BallJumping();
         }
-        if (usingHoming == true && storedHomingTarget != null)
+
+        if (Input.GetKeyDown(KeyCode.E) && !isGrounded)
         {
-            rb.velocity = Vector3.zero;
-            transform.position = Vector3.MoveTowards(transform.position, currentStoredHomingTarget.transform.position, 20f * Time.deltaTime);
-            
-
-            if (Vector3.Distance(transform.position, currentStoredHomingTarget.transform.position) < 0.6f)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-                StartCoroutine(Spawning(currentStoredHomingTarget));
-         
-                storedHomingTarget = null;
-                homingUsed = false;
-                usingHoming = false;
-            }
+            savedVelocity = rb.velocity;
+            rb.velocity = new Vector3(0, -20, 0);
+            rb.angularVelocity = new Vector3(0, 0, 0);
+            groundPounding = true;            
         }
+
+        if (groundPounding && !isGrounded)
+        {
+            rb.angularVelocity = new Vector3(0, 0, 0);
+        }
+
+        if (groundPounding && isGrounded)
+        {
+            rb.velocity = new Vector3(0, 0, 0);
+            groundPounding = false;
+        }
+
+
+        if (usingHoming == true && currentStoredHomingTarget != null)
+        {
+            HomingCheck();
+        }
+
+
     }
 
     private void FindTarget()
@@ -114,9 +102,6 @@ public class BallJump : MonoBehaviour
             GameObject homingTarget = objectColliders[i].gameObject;
             if (homingTarget.tag == "HomingTarget")
             {
-
-
-
                 angle = Vector3.Angle(homingTarget.transform.position - transform.position, Camera.main.transform.forward);
                 {
                     if (!usingHoming)
@@ -138,7 +123,64 @@ public class BallJump : MonoBehaviour
             }
         }
     }
+    private void BallJumping()
+    {
+        if (isGrounded)
+        {
+            if (rb.velocity.y > -3 && rb.velocity.y < 3)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
 
+            }
+            homingUsed = false;
+        }
+
+        if (!isGrounded)
+        {
+            if (!homingUsed)
+            {
+                if (storedHomingTarget == null)
+                {
+                    Vector3 camDirection = Camera.main.transform.forward;
+                    camDirection.y = 0;
+                    Vector3 camCross = Vector3.Cross(camDirection, Vector3.up);
+                    Vector3 dashLocal = Quaternion.AngleAxis(20, camCross) * camDirection;
+                    rb.velocity = dashLocal.normalized * homingAttackSpeed ;
+                    Vector3 movement = Camera.main.transform.TransformDirection(new Vector3(100, 0.0f, 0));
+                    rb.AddTorque(movement * 250f * Time.deltaTime);
+                    homingUsed = true;
+                }
+                else
+                {
+                    currentStoredHomingTarget = storedHomingTarget;
+                    usingHoming = true;
+                    homingUsed = true;
+                }
+            }
+        }
+    }
+    private void HomingCheck()
+    {
+        rb.velocity = Vector3.zero;
+        Vector3 movement = Camera.main.transform.TransformDirection(new Vector3(100, 0.0f, 0));
+        rb.AddTorque(movement * 250f * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, currentStoredHomingTarget.transform.position, 20f * Time.deltaTime);
+
+
+        if (Vector3.Distance(transform.position, currentStoredHomingTarget.transform.position) < 0.6f)
+        {
+            Vector3 camDirection = Camera.main.transform.forward;
+            camDirection.y = jumpForce;
+            Vector3 camCross = Vector3.Cross(camDirection, Vector3.up);
+            Vector3 dashLocal = Quaternion.AngleAxis(-20, camCross) * camDirection;
+            rb.velocity = dashLocal.normalized * jumpForce;
+            StartCoroutine(Spawning(currentStoredHomingTarget));
+
+            storedHomingTarget = null;
+            homingUsed = false;
+            usingHoming = false;
+        }
+    }
     IEnumerator Spawning(GameObject SavedHomingTarget)
     {
 
@@ -146,10 +188,11 @@ public class BallJump : MonoBehaviour
         yield return StartCoroutine(WaitForSeconds(SavedHomingTarget.GetComponent<HomingPassthrough>().GetSpawnTime()));
         SavedHomingTarget.SetActive(true);
     }
-
     IEnumerator WaitForSeconds(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
     }
+
+
 }
 

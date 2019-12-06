@@ -12,12 +12,11 @@ public class BallCamera : MonoBehaviour
 
     private int notFloorMask = ~(0 << 8);
     [SerializeField]
-    private LayerMask CamMaskFloor;
-    [SerializeField]
     private Transform Ball;
 
     private Vector3 currentRotation;
     private Vector3 rotationSmoothVelocity;
+    private Vector3 savedLocation;
 
     private float mouseX, mouseY;
 
@@ -30,7 +29,8 @@ public class BallCamera : MonoBehaviour
     {
         mouseX += Input.GetAxis("Mouse X") * 2;
         mouseY -= Input.GetAxis("Mouse Y") * 4;
-        mouseY = Mathf.Clamp(mouseY, -40, 85);
+        mouseY = Mathf.Clamp(mouseY, -35, 85);
+ 
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -44,7 +44,6 @@ public class BallCamera : MonoBehaviour
 
 
 
-
         Cursor.visible = false;
 
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(mouseY, mouseX), ref rotationSmoothVelocity, rotationSmoothTime);
@@ -52,6 +51,7 @@ public class BallCamera : MonoBehaviour
         transform.eulerAngles = currentRotation;
 
         transform.position = Target.position - transform.forward * distance;
+
 
         Vector3 RaycastRef = Ball.position;
 
@@ -62,16 +62,12 @@ public class BallCamera : MonoBehaviour
     {
         RaycastHit wallHit = new RaycastHit();
 
-        if(Physics.Linecast(TargetFol, Camera.main.transform.position, out wallHit, notFloorMask))
+        if (Physics.Linecast(TargetFol, Camera.main.transform.position, out wallHit))
         {
-            transform.position = new Vector3(wallHit.point.x + wallHit.normal.x * 0.5f, transform.position.y, wallHit.point.z + wallHit.normal.z * 0.5f);
-            transform.LookAt(TargetFol);
-        }
-        if (Physics.Linecast(TargetFol, Camera.main.transform.position, out wallHit, CamMaskFloor))
-        {
-            transform.position = new Vector3(wallHit.point.x + wallHit.normal.x * 0.5f, transform.position.y + 1f, wallHit.point.z + wallHit.normal.z * 0.5f);
+
+            transform.position = new Vector3(wallHit.point.x, wallHit.point.y, wallHit.point.z);
+            transform.position = Target.position - transform.forward * (Vector3.Distance(transform.position, Ball.position) * 0.9f);
             transform.LookAt(TargetFol);
         }
     }
-
 }
