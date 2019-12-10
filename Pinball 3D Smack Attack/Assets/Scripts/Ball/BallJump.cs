@@ -93,7 +93,7 @@ public class BallJump : MonoBehaviour
 
     private void FindTarget()
     {
-        isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.08f), 0.5f, notPlayerMask);
+        isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.08f), 0.45f, notPlayerMask);
 
         Collider[] objectColliders = Physics.OverlapSphere(transform.position, 7f);
 

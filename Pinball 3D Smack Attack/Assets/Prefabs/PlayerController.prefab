@@ -124,7 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 250
-  camTransform: {fileID: 1715695956576258401}
 --- !u!114 &1715695954944406658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36fefd1b1f4673b4586bdf3a8d6d5e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ball: {fileID: 1715695954944406661}
   distance: 5
   Target: {fileID: 1715695956092584794}
   rotationSmoothTime: 0.12
+  Ball: {fileID: 1715695954944406656}

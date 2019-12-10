@@ -68,12 +68,12 @@
     <Compile Include="Assets\Scripts\Ball\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\Ball\TargetMovement.cs" />
     <Compile Include="Assets\Scripts\Game Logic\NextLevel.cs" />
+    <Compile Include="Assets\Scripts\Game Logic\ObjMoveTo.cs" />
     <Compile Include="Assets\Scripts\Game Logic\PreviousLevel.cs" />
     <Compile Include="Assets\Scripts\Game Logic\ResetScene.cs" />
     <Compile Include="Assets\Scripts\Reticle\HomingPassthrough.cs" />
     <Compile Include="Assets\Scripts\Reticle\HomingReticle.cs" />
     <Compile Include="Assets\Scripts\why.cs" />
-    <None Include="Assets\Materials\Shaders\NeWShader.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:/Unity Games/AINT254/Pinball 3D Smack Attack/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
