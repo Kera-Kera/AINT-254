@@ -9,12 +9,13 @@ public class HomingReticle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     void Update()
     {
-        this.transform.LookAt(Camera.main.transform);
+        transform.LookAt(Camera.main.transform);
     }
+    //When these are active, they look at the camera. I used these on the reticles so they look like UI objects but actually theyre just sprites!
 }
  

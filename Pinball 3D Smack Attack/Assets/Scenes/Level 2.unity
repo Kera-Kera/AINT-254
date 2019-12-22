@@ -121,25 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &251185087 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2431690862431130896, guid: 26c9547cfbf7a204cb21c2201c789c47,
-    type: 3}
-  m_PrefabInstance: {fileID: 1859667880}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &251185088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251185087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a62477deb00ea947b91f8c3f415be32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1119178333}
 --- !u!1 &339039527
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +702,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315172139286816847, guid: 4fcd6f82c138f3443ac672865b077172,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755961911625778866, guid: 4fcd6f82c138f3443ac672865b077172,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Press Space in the air to
+
+        use your dash attack'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fcd6f82c138f3443ac672865b077172, type: 3}
@@ -1824,8 +1817,7 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2431690862431130903, guid: 26c9547cfbf7a204cb21c2201c789c47, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26c9547cfbf7a204cb21c2201c789c47, type: 3}
 --- !u!1001 &1859932373
 PrefabInstance:

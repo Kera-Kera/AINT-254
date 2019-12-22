@@ -28,11 +28,11 @@ public class BallRoll : MonoBehaviour
         //pressing S will cause the float to be -1, meaning you can move
         //back and forth
 
-        //Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
         Vector3 movement = Camera.main.transform.TransformDirection(new Vector3(moveVertical, 0.0f, -moveHorizontal));
+        //Uses the cameras Transform to control the movement of the player
 
         rb.AddTorque(movement * speed * Time.deltaTime);
+        //Adds Torque(rotation) in the direction of the camera
 
         if (moveHorizontal == 0 && moveVertical == 0)
         {
@@ -49,21 +49,14 @@ public class BallRoll : MonoBehaviour
                     rb.angularVelocity /= 1.01f;
                 }
             }
+            //I used this for some extra friction to make the ball stop when the player stops moving 
             else
             {
                 rb.angularVelocity = rb.angularVelocity;
             }
+            //Making sure that in the air it keeps its angularVelocity
         }
-       
-
-        }
-
-        //adds force to the player, causing them to move
-
-            //this is the base code from the Unity Movement Basics tutorial, my own 
-            //will be added in the other scripts however this script change also.
-
-            //this.transform.Rotate(movement * speed, 5f, Space.World);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -76,4 +69,21 @@ public class BallRoll : MonoBehaviour
             isIce = true;
         }
     }
+    //Checking if the ball is colliding with ice, ended up not using an ice in the submission however will add some later
+    private void OnCollisionStay(Collision col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            transform.parent.SetParent(col.transform);
+        }
+    }
+    //When the Player collides with a Platform object(one that is moving) it uses this to move with it.
+    private void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            transform.parent.SetParent(null);
+        }
+    }
+    //When the player leaves the Platform, it wont get dragged by the transform of the platform.
 }

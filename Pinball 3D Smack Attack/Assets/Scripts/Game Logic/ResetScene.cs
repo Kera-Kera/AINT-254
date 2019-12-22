@@ -14,6 +14,6 @@ public class ResetScene : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-
+        //This resets the scene when the player colliders with the gameObject. Used as invisible killzones
     }
 }

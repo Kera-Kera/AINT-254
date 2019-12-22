@@ -13,4 +13,5 @@ public class TargetMovement : MonoBehaviour
         Vector3 offSet = new Vector3(0.0f, 0.4f, 0.0f);
         transform.position = ball.transform.position + offSet;
     }
+    //This makes it so the Target will always be at a certain offset to the ball.
 }

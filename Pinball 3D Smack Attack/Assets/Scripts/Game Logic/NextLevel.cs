@@ -12,9 +12,21 @@ public class NextLevel : MonoBehaviour
     {
         if (other.gameObject == player)
         {
-            Debug.Log("uihuih");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            
+            LoadNextLevel();
         }
     }
+    //Uses the Gameobject collision to load the next scene when the player collides with it
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    } 
+
+    //Gets the current scene number and adds 1 to the buildIndex, meaning it loads the next level
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    //Quits the application 
 }

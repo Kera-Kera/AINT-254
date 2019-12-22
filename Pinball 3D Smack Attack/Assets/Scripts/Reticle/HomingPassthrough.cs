@@ -5,22 +5,22 @@ using UnityEngine;
 public class HomingPassthrough : MonoBehaviour
 {
     [SerializeField]
-    private GameObject target = null;
-    [SerializeField]
     private float SpawnTimer = 2.0f;
 
     // Start is called before the first frame update
     public void IsSelected()
     {
-        target.gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
     }
-
+    //This is a public method that enableds the gameObject that is a child of this one (used for the reticle around the targets.)
     public void IsNotSelected()
     {
-        target.gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
+    //This disables the gameObject that is a child of the gameObject
     public float GetSpawnTime()
     {
         return SpawnTimer;
     }
+    //returns the spawn timer to be used when spawning the target in the homing attack code
 }

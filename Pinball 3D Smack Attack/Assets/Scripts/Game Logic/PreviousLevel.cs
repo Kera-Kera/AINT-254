@@ -12,9 +12,8 @@ public class PreviousLevel : MonoBehaviour
     {
         if (other.gameObject == player)
         {
-            Debug.Log("uihuih");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-
+            SceneManager.LoadScene(0);
         }
+        //This code used to load the last scene, but had no need for it so now its a code that sends the player to the menu
     }
 }

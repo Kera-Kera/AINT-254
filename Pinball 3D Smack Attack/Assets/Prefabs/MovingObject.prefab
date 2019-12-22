@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4615675489494377151}
   m_Layer: 0
-  m_Name: MovingWall
+  m_Name: MovingObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 4615675491127620147}
   m_Layer: 9
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endingLocal: {fileID: 4615675490387734496}
-  moveSpeed: 2
   isTriggered: 1
-  moveBack: 1
-  movingFor: 1
+  slowDistance: 2
+  moveSpeed2: 5
