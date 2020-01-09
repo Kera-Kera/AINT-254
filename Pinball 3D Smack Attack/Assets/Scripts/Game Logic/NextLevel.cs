@@ -8,6 +8,14 @@ public class NextLevel : MonoBehaviour
     [SerializeField]
     private GameObject player = null;
     // Start is called before the first frame update
+
+    private void Update()
+    {
+        if(SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            Cursor.visible = true;
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == player)
@@ -28,5 +36,5 @@ public class NextLevel : MonoBehaviour
     {
         Application.Quit();
     }
-    //Quits the application 
+    //Quits the application
 }

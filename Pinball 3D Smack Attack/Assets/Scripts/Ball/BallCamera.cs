@@ -10,7 +10,7 @@ public class BallCamera : MonoBehaviour
     public Transform Target;
     public float smooth = 0.12f;
 
-    private int notFloorMask = ~(0 << 8);
+    private int notFloorMask = ~(2 << 7);
     [SerializeField]
     private Transform Ball;
 
@@ -54,7 +54,7 @@ public class BallCamera : MonoBehaviour
     void CameraRayCast(ref Vector3 TargetFol)
     {
         RaycastHit wallHit;
-        if (Physics.Linecast(TargetFol, Camera.main.transform.position, out wallHit))
+        if (Physics.Linecast(TargetFol, Camera.main.transform.position, out wallHit, notFloorMask))
         {
 
             transform.position = new Vector3(wallHit.point.x, wallHit.point.y, wallHit.point.z);
