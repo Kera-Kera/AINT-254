@@ -32,6 +32,7 @@ public class BallCamera : MonoBehaviour
         mouseY = Mathf.Clamp(mouseY, -35, 85);
 
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(mouseY, mouseX), ref smoothvel, smooth);
         //this makes the currentRotation smoothly rotate the camera based on the mouseY and mouseX.
@@ -46,6 +47,7 @@ public class BallCamera : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene(0);
         }
         //Pressing escape will send the player back to the main menu

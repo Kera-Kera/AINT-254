@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &151906832 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2431690862431130896, guid: 26c9547cfbf7a204cb21c2201c789c47,
+    type: 3}
+  m_PrefabInstance: {fileID: 2431690863339628569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &154908807 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2755961911625778866, guid: 4fcd6f82c138f3443ac672865b077172,
@@ -144,6 +150,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315172139286816847, guid: 4fcd6f82c138f3443ac672865b077172,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1715695956225290350, guid: 4fcd6f82c138f3443ac672865b077172,
         type: 3}
@@ -205,21 +216,16 @@ PrefabInstance:
       propertyPath: Ball
       value: 
       objectReference: {fileID: 519098957}
-    - target: {fileID: 1715695954944406658, guid: 4fcd6f82c138f3443ac672865b077172,
+    - target: {fileID: 7011021776161354292, guid: 4fcd6f82c138f3443ac672865b077172,
         type: 3}
-      propertyPath: homingAttackSpeed
-      value: 13
+      propertyPath: levelName
+      value: Level 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1715695954944406658, guid: 4fcd6f82c138f3443ac672865b077172,
+    - target: {fileID: 7011021776161354292, guid: 4fcd6f82c138f3443ac672865b077172,
         type: 3}
-      propertyPath: cg
+      propertyPath: endOfLevel
       value: 
-      objectReference: {fileID: 154908807}
-    - target: {fileID: 7315172139286816847, guid: 4fcd6f82c138f3443ac672865b077172,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 151906832}
     - target: {fileID: 50697944594274762, guid: 4fcd6f82c138f3443ac672865b077172,
         type: 3}
       propertyPath: m_UiScaleMode
@@ -235,6 +241,21 @@ PrefabInstance:
       propertyPath: m_ReferenceResolution.x
       value: 546.49
       objectReference: {fileID: 0}
+    - target: {fileID: 1292212795117714862, guid: 4fcd6f82c138f3443ac672865b077172,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.099998474
+      objectReference: {fileID: 0}
+    - target: {fileID: 1715695954944406658, guid: 4fcd6f82c138f3443ac672865b077172,
+        type: 3}
+      propertyPath: homingAttackSpeed
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1715695954944406658, guid: 4fcd6f82c138f3443ac672865b077172,
+        type: 3}
+      propertyPath: cg
+      value: 
+      objectReference: {fileID: 154908807}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fcd6f82c138f3443ac672865b077172, type: 3}
 --- !u!1 &274881772
@@ -629,9 +650,9 @@ GameObject:
   - component: {fileID: 603823883}
   - component: {fileID: 603823882}
   - component: {fileID: 603823881}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Deathzone
-  m_TagString: Untagged
+  m_TagString: Deathzone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2555,6 +2576,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2117569321}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 519098950}
     - target: {fileID: 2431690862431130896, guid: 26c9547cfbf7a204cb21c2201c789c47,
         type: 3}
       propertyPath: m_Name
@@ -2615,10 +2640,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2431690862431130903, guid: 26c9547cfbf7a204cb21c2201c789c47,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 519098950}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26c9547cfbf7a204cb21c2201c789c47, type: 3}

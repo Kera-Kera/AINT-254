@@ -16,6 +16,8 @@ public class ObjMoveTo : MonoBehaviour
     private float slowDistance = 2;
     [SerializeField]
     private float moveSpeed = 5;
+
+    [SerializeField]
     private float moveSpeed2;
 
     // Start is called before the first frame update
@@ -44,11 +46,27 @@ public class ObjMoveTo : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, endingLocal.position, moveSpeed2 * Time.deltaTime);
             if (Vector3.Distance(transform.position, startingLocal) < slowDistance)
             {
-                moveSpeed2 *= 1.04f;
+
+                if (Vector3.Distance(transform.position, startingLocal) < slowDistance / 2)
+                {
+                    moveSpeed2 = moveSpeed / 4;
+                }
+                else
+                {
+                    moveSpeed2 = moveSpeed / 2;
+                }
             }
             else if(Vector3.Distance(transform.position, endingLocal.position) < slowDistance)
             {
-                moveSpeed2 /= 1.04f;
+                if (Vector3.Distance(transform.position, endingLocal.position) < slowDistance / 2)
+                {
+                    moveSpeed2 = moveSpeed / 4;
+                }
+                else
+                {
+                    moveSpeed2 = moveSpeed / 2;
+                }
+
             }
             else
             {
@@ -71,11 +89,27 @@ public class ObjMoveTo : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, startingLocal, moveSpeed2 * Time.deltaTime);
             if (Vector3.Distance(transform.position, endingLocal.position) < slowDistance)
             {
-                moveSpeed2 *= 1.04f;
+
+                if (Vector3.Distance(transform.position, endingLocal.position) < slowDistance / 2)
+                {
+                    moveSpeed2 = moveSpeed / 4;
+                }
+                else
+                {
+                    moveSpeed2 = moveSpeed / 2;
+                }
+
             }
             else if (Vector3.Distance(transform.position, startingLocal) < slowDistance)
             {
-                moveSpeed2 /= 1.04f;
+                if (Vector3.Distance(transform.position, startingLocal) < slowDistance / 2)
+                {
+                    moveSpeed2 = moveSpeed / 4;
+                }
+                else
+                {
+                    moveSpeed2 = moveSpeed / 2;
+                }
             }
             else
             {

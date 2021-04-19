@@ -11,12 +11,16 @@ public class BallJump : MonoBehaviour
     public Transform camTransform;
     public bool canHomingAttack;
     public GameObject storedHomingTarget = null;
+    
+
 
     private GameObject currentStoredHomingTarget = null;
     private bool usingHoming = false;
     private bool homingUsed = false;
     private bool groundPounding = false;
     private Rigidbody rb;
+    [SerializeField]
+    private AudioSource Audio2;
     private ParticleSystem ps;
     private float angle;
     private int notPlayerMask = ~(1 << 8);
@@ -25,6 +29,7 @@ public class BallJump : MonoBehaviour
     private GameObject ParticleHolder;
     [SerializeField]
     private Text cg;
+
 
     private Vector3 camFor;
     private Vector3 lockedForward;
@@ -79,6 +84,7 @@ public class BallJump : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && !isGrounded)
         {
+            Debug.Log("First" + rb.velocity.y);
             rb.velocity = new Vector3(0, -20, 0);
             rb.angularVelocity = new Vector3(0, 0, 0);
             groundPounding = true;            
@@ -87,12 +93,18 @@ public class BallJump : MonoBehaviour
 
         if (groundPounding && !isGrounded)
         {
+            Debug.Log("Second" + rb.velocity.y);
+            rb.velocity = new Vector3(0, -20, 0);
             rb.angularVelocity = new Vector3(0, 0, 0);
         }
         //Whilst you are groundpounding there is no rotation
 
         if (groundPounding && isGrounded)
         {
+            Debug.Log("Third" + rb.velocity.y);
+            Audio2.pitch = 0.9f;
+            Audio2.volume = 1f;
+            Audio2.Play();
             ps.Play();
             rb.velocity = new Vector3(0, 0, 0);
             groundPounding = false;
@@ -111,6 +123,10 @@ public class BallJump : MonoBehaviour
     private void FindTarget()
     {
         isGrounded = Physics.CheckSphere(transform.position - (Vector3.up * 0.08f), 0.45f, notPlayerMask);
+        if (transform.parent.parent != null)
+        {
+            isGrounded = true;
+        }
         //Checks if the player is on the ground by making a Sphere to check if anything hits it, its slightly beneath the player so if it collides with something it i will be the floor
         Collider[] objectColliders = Physics.OverlapSphere(transform.position, 7f);
         //this stores all the colliding gameObjects that collide with the Sphere created. This is meant to looking for targets to attack
@@ -153,6 +169,7 @@ public class BallJump : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
 
             }
+            
             homingUsed = false;
         }
         //if the player is on the ground then make the player jump into the air.
@@ -202,6 +219,10 @@ public class BallJump : MonoBehaviour
             Vector3 camCross = Vector3.Cross(camDirection, Vector3.up);
             Vector3 dashLocal = Quaternion.AngleAxis(-20, camCross) * camDirection;
             rb.velocity = dashLocal.normalized * jumpForce;
+            Audio2.pitch = 1.2f;
+            //Audio1.volume = 0;
+            Audio2.volume = 0.5f;
+            Audio2.Play();
             StartCoroutine(Spawning(currentStoredHomingTarget));
 
             storedHomingTarget = null;
@@ -222,6 +243,7 @@ public class BallJump : MonoBehaviour
                 rb.AddExplosionForce(500f, collision.transform.position, 500f);
             }
         }
+        
     }
     //if you get hit during a homing attack it will knock you off course
 

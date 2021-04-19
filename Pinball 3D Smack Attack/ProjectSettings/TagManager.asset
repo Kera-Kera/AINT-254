@@ -8,6 +8,7 @@ TagManager:
   - Ice
   - HomingTarget
   - Platform
+  - Deathzone
   layers:
   - Default
   - TransparentFX
